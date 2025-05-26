@@ -64,6 +64,7 @@ fun ShopScreen(products: List<Product>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(top = 5.dp)
             .background(Color(0xFF1A1A1A))
             .verticalScroll(rememberScrollState())
     ) {
@@ -179,6 +180,23 @@ fun ProductCard(
                 )
             }
 
+           if (product.inStock) {
+               IconToggleButton(
+                   checked = isInCart,
+                   onCheckedChange = { if (product.inStock) onToggleCart() },
+                   enabled = product.inStock,
+                   modifier = Modifier
+                       .align(Alignment.BottomEnd)
+                       .padding(20.dp)
+               ) {
+                   Icon(
+                       imageVector = Icons.Default.ShoppingCart,
+                       contentDescription = "Cart",
+                       tint = if (isInCart) Color(0xFF3F51B5) else Color.White
+                   )
+               }
+           }
+
             // 🔸 Content
             Column(
                 modifier = Modifier
@@ -224,11 +242,24 @@ fun ProductCard(
                             .padding(12.dp)
                     ) {
                         Column {
-                            Text(
-                                product.name,
-                                fontWeight = FontWeight.Bold,
-                                color = if (product.inStock) Color(0xFFB7F56A) else Color.Red
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = product.name,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFFB7F56A),
+                                    modifier = Modifier.weight(1f)
+                                )
+
+                                Text(
+                                    text = if (product.inStock) "Is in Stock!" else "Out of Stock!",
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (product.inStock) Color.Green else Color.Red,
+                                    modifier = Modifier.align(Alignment.CenterVertically)
+                                )
+                            }
                             Text(product.description, style = MaterialTheme.typography.bodySmall,
                                 color = Color.White
                             )
@@ -265,18 +296,6 @@ fun ProductCard(
                                     color = Color.White
                                 )
                             }
-                        }
-
-                        IconToggleButton(
-                            checked = isInCart,
-                            onCheckedChange = { if (product.inStock) onToggleCart() },
-                            enabled = product.inStock
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.ShoppingCart,
-                                contentDescription = "Cart",
-                                tint = if (isInCart) Color(0xFF3F51B5) else Color.White
-                            )
                         }
                     }
                 }

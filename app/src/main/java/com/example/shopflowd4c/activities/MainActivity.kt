@@ -3,6 +3,7 @@ package com.example.shopflowd4c.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.core.view.WindowCompat
 import com.example.shopflowd4c.models.Product
 import com.example.shopflowd4c.screens.ShopScreen
 import com.example.shopflowd4c.ui.theme.ShopFlowTheme
@@ -10,6 +11,9 @@ import com.example.shopflowd4c.ui.theme.ShopFlowTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             ShopFlowTheme {
                 val products = listOf(
